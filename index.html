@@ -6,11 +6,11 @@
     <title>Higher or Lower</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Verdana', sans-serif;
             text-align: center;
             background-color: black;
             background-image: url('./background.png'); /* Relativer Pfad */
-            background-size: contain;
+            background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             background-attachment: fixed;
@@ -22,25 +22,38 @@
         }
         h1 {
             color: gold;
+            font-size: 3rem;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px black;
+        }
+        p {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px black;
         }
         button {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin: 10px;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            margin: 15px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.1);
         }
         .higher {
-            background-color: green;
+            background-color: #28a745;
             color: white;
         }
         .lower {
-            background-color: red;
+            background-color: #dc3545;
             color: white;
         }
         .best-scores {
-            background-color: blue;
+            background-color: #007bff;
             color: white;
         }
     </style>
