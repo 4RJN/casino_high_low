@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higher or Lower</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            background-image: url('background.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+        h1 {
+            color: gold;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .higher {
+            background-color: green;
+            color: white;
+        }
+        .lower {
+            background-color: red;
+            color: white;
+        }
+        .best-scores {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Higher or Lower</h1>
+    <p id="current-number">Starting number: 0</p>
+    <p id="score">Score: 0</p>
+
+    <button class="higher" onclick="guessHigher()">Higher</button>
+    <button class="lower" onclick="guessLower()">Lower</button>
+    <button class="best-scores" onclick="showBestScores()">View Best Scores</button>
+
+    <audio id="correct-sound" src="correct_guess.mp3"></audio>
+    <audio id="game-over-sound" src="game_over.mp3"></audio>
+
+    <script>
+        let currentNumber = Math.floor(Math.random() * 10) + 1;
+        let score = 0;
+        let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+
+        document.getElementById('current-number').textContent = `Starting number: ${currentNumber}`;
+        document.getElementById('score').textContent = `Score: ${score}`;
+
+        function guessHigher() {
+            makeGuess(true);
+        }
+
+        function guessLower() {
+            makeGuess(false);
+        }
+
+        function makeGuess(isHigher) {
+            const nextNumber = Math.floor(Math.random() * 10) + 1;
+            if ((isHigher && nextNumber > currentNumber) || (!isHigher && nextNumber < currentNumber)) {
+                score += 100;
+                currentNumber = nextNumber;
+                document.getElementById('current-number').textContent = `Current number: ${currentNumber}`;
+                document.getElementById('score').textContent = `Score: ${score}`;
+                playSound('correct-sound');
+            } else {
+                playSound('game-over-sound');
+                gameOver();
+            }
+        }
+
+        function gameOver() {
+            if (score >= 500) {
+                const name = prompt('Congratulations! Enter your name for the leaderboard:');
+                if (name) {
+                    highScores.push({ score, name });
+                    highScores.sort((a, b) => b.score - a.score);
+                    highScores = highScores.slice(0, 5);
+                    localStorage.setItem('highScores', JSON.stringify(highScores));
+                }
+            }
+            alert(`Game Over! Your final score is ${score}.`);
+            if (confirm('Do you want to play again?')) {
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            score = 0;
+            currentNumber = Math.floor(Math.random() * 10) + 1;
+            document.getElementById('current-number').textContent = `Starting number: ${currentNumber}`;
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        function showBestScores() {
+            const scoresText = highScores
+                .map((entry, index) => `${index + 1}. ${entry.name}: ${entry.score}`)
+                .join('\\n') || 'No scores yet!';
+            alert(`Best Scores:\\n${scoresText}`);
+        }
+
+        function playSound(soundId) {
+            const sound = document.getElementById(soundId);
+            sound.currentTime = 0;
+            sound.play();
+        }
+    </script>
+</body>
+</html>
