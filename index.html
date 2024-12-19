@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: black;
-            background-image: url('background.png');
+            background-image: url('./background.png'); /* Relativer Pfad */
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -54,8 +54,8 @@
     <button class="lower" onclick="guessLower()">Lower</button>
     <button class="best-scores" onclick="showBestScores()">View Best Scores</button>
 
-    <audio id="correct-sound" src="correct_guess.mp3"></audio>
-    <audio id="game-over-sound" src="game_over.mp3"></audio>
+    <audio id="correct-sound" src="./correct_guess.mp3"></audio>
+    <audio id="game-over-sound" src="./game_over.mp3"></audio>
 
     <script>
         let currentNumber = Math.floor(Math.random() * 10) + 1;
@@ -113,8 +113,8 @@
         function showBestScores() {
             const scoresText = highScores
                 .map((entry, index) => `${index + 1}. ${entry.name}: ${entry.score}`)
-                .join('\\n') || 'No scores yet!';
-            alert(`Best Scores:\\n${scoresText}`);
+                .join('\n') || 'No scores yet!';
+            alert(`Best Scores:\n${scoresText}`);
         }
 
         function playSound(soundId) {
