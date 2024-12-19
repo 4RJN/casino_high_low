@@ -88,7 +88,7 @@
 
         function makeGuess(isHigher) {
             const nextNumber = Math.floor(Math.random() * 10) + 1;
-            if ((isHigher && nextNumber > currentNumber) || (!isHigher && nextNumber < currentNumber)) {
+            if ((isHigher && nextNumber > currentNumber) || (!isHigher && nextNumber < currentNumber) || nextNumber === currentNumber) {
                 score += 100;
                 currentNumber = nextNumber;
                 document.getElementById('current-number').textContent = `Current number: ${currentNumber}`;
